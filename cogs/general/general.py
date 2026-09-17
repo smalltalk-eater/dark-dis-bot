@@ -6,25 +6,13 @@ from discord.ext import commands
 from config.theme import EDEN_GOLD
 from views.cases_view import CasesView
 
-from database.member_stats import (
-    get_member_stats,
-    get_member_rank,
-)
+from database.member_stats import get_member_stats
 
-from utils.profile_card import (
-    ProfileStats,
-    create_profile_card,
-)
-
-from utils.server_banner import (
-    create_server_banner,
-)
-
+from utils.server_banner import create_server_banner
 from utils.leveling import (
     level_from_xp,
     xp_to_next_level,
 )
-
 from utils.embeds import (
     eden_embed,
     error_embed,
@@ -119,77 +107,6 @@ class General(commands.Cog):
 
         await interaction.response.send_message(
             embed=embed
-        )
-
-    @app_commands.command(
-        name="профиль",
-        description="Открыть профиль участника сада",
-    )
-    async def profile(
-        self,
-        interaction: discord.Interaction,
-        user: discord.Member | None = None,
-    ):
-        if interaction.guild is None:
-            embed = error_embed(
-                title="Профиль недоступен",
-                description=(
-                    "Профиль можно открыть "
-                    "только внутри сервера."
-                ),
-            )
-
-            await interaction.response.send_message(
-                embed=embed,
-                ephemeral=True,
-            )
-            return
-
-        if user is None:
-            user = interaction.user
-
-        await interaction.response.defer()
-
-        db_stats = await get_member_stats(
-            guild_id=interaction.guild.id,
-            user_id=user.id,
-        )
-
-        level = level_from_xp(
-            db_stats.xp
-        )
-
-        rank = await get_member_rank(
-            guild_id=interaction.guild.id,
-            user_id=user.id,
-        )
-
-        xp_left = xp_to_next_level(
-            db_stats.xp
-        )
-
-        profile_stats = ProfileStats(
-            level=level,
-            rank=rank,
-            total_xp=db_stats.xp,
-            xp_to_next_level=xp_left,
-            currency=db_stats.currency,
-            messages=db_stats.messages,
-            voice_seconds=db_stats.voice_seconds,
-        )
-
-        card = await create_profile_card(
-            user,
-            profile_stats,
-        )
-
-        file = discord.File(
-            card,
-            filename="profile.png",
-        )
-
-        await interaction.followup.send(
-            file=file
         )
 
     @app_commands.command(
