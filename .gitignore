@@ -1,4 +1,8 @@
 .env
 .venv/
 __pycache__/
-data
+data/
+backups/
+preview_profile*.png
+temp.png
+assets/temp.png
