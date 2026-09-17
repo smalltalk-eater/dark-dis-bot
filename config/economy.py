@@ -53,6 +53,7 @@ CLOSE_WIN_BONUS_CURRENCY = 10
 CLOSE_REWARD_DAILY_LIMIT = 5
 CLOSE_REWARD_WINDOW_SECONDS = 24 * 60 * 60
 
+# Пассивный доход ограничен, чтобы сообщения и voice не разгоняли экономику.
 MESSAGE_FUNDS = 1
 MESSAGE_FUNDS_COOLDOWN = 180
 MESSAGE_FUNDS_DAILY_LIMIT = 20
@@ -60,6 +61,16 @@ MESSAGE_FUNDS_DAILY_LIMIT = 20
 VOICE_FUNDS = 1
 VOICE_FUNDS_INTERVAL_MINUTES = 10
 VOICE_FUNDS_DAILY_LIMIT = 12
+
+
+# =========================================================
+# SHOP
+# =========================================================
+
+# EDEN CASE остаётся дорогой покупкой: основной источник кейсов — уровни,
+# достижения и события, магазин лишь создаёт дополнительный sink для средств.
+SHOP_CASE_PRICE = 120
+SHOP_MAX_CASES_PER_PURCHASE = 5
 
 
 # =========================================================
