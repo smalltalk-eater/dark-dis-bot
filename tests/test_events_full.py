@@ -60,7 +60,8 @@ async def test_event_full_reward_flow_is_idempotent(test_db):
             user_id=user_id,
         )
 
-        assert stats.currency == 20
+        # 20 за EVENT + 15 за достижение «Первый зов».
+        assert stats.currency == 35
         assert stats.xp == 30
         assert stats.eden_cases == 1
 
@@ -78,6 +79,7 @@ async def test_event_full_reward_flow_is_idempotent(test_db):
             user_id=user_id,
         )
 
-        assert stats.currency == 20
+        # Повторный вызов не должен дублировать ни EVENT, ни achievement reward.
+        assert stats.currency == 35
         assert stats.xp == 30
         assert stats.eden_cases == 1
