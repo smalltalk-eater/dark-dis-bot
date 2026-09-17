@@ -1,8 +1,6 @@
 import discord
 from services.achievements import check_achievements
-from config.economy import (
-    CURRENCY_SYMBOL,
-)
+from config.economy import CURRENCY_SYMBOL
 
 from services.cases import (
     CaseOpenResult,
@@ -14,6 +12,7 @@ from utils.embeds import (
     error_embed,
 )
 from services.level_roles import sync_level_role
+
 
 class CasesView(discord.ui.View):
     def __init__(
@@ -30,18 +29,11 @@ class CasesView(discord.ui.View):
 
         self.processing = False
 
-    # =====================================================
-    # OWNER CHECK
-    # =====================================================
-
     async def interaction_check(
         self,
         interaction: discord.Interaction,
     ) -> bool:
-        if (
-            interaction.user.id
-            != self.player_id
-        ):
+        if interaction.user.id != self.player_id:
             await interaction.response.send_message(
                 embed=error_embed(
                     title="Чужое хранилище",
@@ -56,10 +48,6 @@ class CasesView(discord.ui.View):
             return False
 
         return True
-
-    # =====================================================
-    # RESULT
-    # =====================================================
 
     def build_result_embed(
         self,
@@ -110,11 +98,19 @@ class CasesView(discord.ui.View):
                 inline=False,
             )
 
+        if result.bloom is not None:
+            embed.add_field(
+                name="Редкая находка · BLOOM",
+                value=(
+                    f"**{result.bloom.name}** · "
+                    f"`{result.bloom.rarity}`\n"
+                    f"{result.bloom.description}"
+                ),
+                inline=False,
+            )
+
         return embed
 
-    # =====================================================
-    # OPEN
-    # =====================================================
     @discord.ui.button(
         label="OPEN",
         style=discord.ButtonStyle.secondary,
@@ -166,7 +162,6 @@ class CasesView(discord.ui.View):
                 view=self,
             )
 
-            # Обновляем юбилейную роль
             if (
                 result.bonus_cases > 0
                 and isinstance(
@@ -186,6 +181,7 @@ class CasesView(discord.ui.View):
                     print(
                         f"[LEVEL ROLE] {error}"
                     )
+
             await check_achievements(
                 guild_id=self.guild_id,
                 user_id=self.player_id,
