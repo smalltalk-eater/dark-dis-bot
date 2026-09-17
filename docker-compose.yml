@@ -1,0 +1,10 @@
+services:
+  bot:
+    build: .
+    container_name: lost-eden-bot
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./backups:/app/backups
