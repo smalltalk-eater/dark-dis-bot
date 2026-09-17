@@ -22,7 +22,7 @@ from utils.profile_card_v2 import (
 
 
 AVATAR_PATH = ASSETS_DIR / "preview_avatar.png"
-OUTPUT_PATH = PROJECT_ROOT / "temp.png"
+OUTPUT_PATH = PROJECT_ROOT / "preview_profile_v2.png"
 
 
 class PreviewAvatar:
@@ -82,7 +82,7 @@ async def main() -> None:
         duels=3,
         closes=7,
         verification_status="unconfigured",
-        milestone_name=None,
+        milestone_name="Росток",
     )
 
     image = await create_profile_card_v2(
