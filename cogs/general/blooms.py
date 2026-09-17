@@ -16,8 +16,8 @@ class Blooms(commands.Cog):
         self.bot = bot
 
     @app_commands.command(
-        name="blooms",
-        description="Посмотреть коллекцию редких цветов участника",
+        name="цветы",
+        description="Посмотреть коллекцию редких Blooms участника",
     )
     @app_commands.guild_only()
     async def blooms(
