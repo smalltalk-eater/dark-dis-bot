@@ -25,7 +25,7 @@ class BloomsAdmin(commands.Cog):
         self.bot = bot
 
     @app_commands.command(
-        name="выдать-bloom",
+        name="выдать-цветок",
         description="Выдать редкий Bloom участнику",
     )
     @app_commands.guild_only()
