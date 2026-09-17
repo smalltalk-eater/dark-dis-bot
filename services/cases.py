@@ -3,11 +3,14 @@ import time
 
 from dataclasses import dataclass
 
+from config.blooms import BloomDefinition
 from config.economy import (
     CURRENCY_SYMBOL,
     REASON_CASE,
 )
+from database.blooms import grant_bloom_in_db
 from database.connection import get_db
+from services.blooms import roll_case_bloom
 from services.progression import calculate_progression
 
 
@@ -70,6 +73,7 @@ class CaseOpenResult:
     new_level: int
     new_balance: int
     bonus_cases: int = 0
+    bloom: BloomDefinition | None = None
 
 
 def roll_case_reward() -> CaseReward:
@@ -189,6 +193,17 @@ async def open_eden_case(
                     f"Неизвестный тип награды: {reward.kind}"
                 )
 
+            bloom = roll_case_bloom()
+
+            if bloom is not None:
+                await grant_bloom_in_db(
+                    db,
+                    guild_id=guild_id,
+                    user_id=user_id,
+                    bloom_key=bloom.key,
+                    amount=1,
+                )
+
             await db.execute(
                 """
                 UPDATE member_stats
@@ -217,6 +232,7 @@ async def open_eden_case(
                 new_level=progression.new_level,
                 new_balance=new_balance,
                 bonus_cases=progression.cases_gained,
+                bloom=bloom,
             )
 
         except Exception:
