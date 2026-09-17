@@ -94,9 +94,14 @@ async def test_duel_full_confirmed_reward_flow(test_db):
 
     assert {item.status for item in rewards} == {"granted"}
     assert winner.xp == 5
-    assert winner.currency == 8
+
+    # 8 за победу + 10 за первый подтверждённый DUEL
+    # + 20 за первую победу в DUEL.
+    assert winner.currency == 38
+
     assert loser.xp == 0
-    assert loser.currency == 0
+    # Проигравший тоже открывает достижение за первый подтверждённый DUEL.
+    assert loser.currency == 10
 
     second_rewards = await reward_duel_winner_automatically(
         guild_id=guild_id,
@@ -112,7 +117,7 @@ async def test_duel_full_confirmed_reward_flow(test_db):
 
     assert {item.status for item in second_rewards} == {"already_granted"}
     assert winner_after.xp == 5
-    assert winner_after.currency == 8
+    assert winner_after.currency == 38
 
     stored_result = await get_duel_result(activity_id)
     assert stored_result is not None
