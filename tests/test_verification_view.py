@@ -1,10 +1,13 @@
+import pytest
+
 from cogs.moderation.verification import (
     VERIFICATION_BUTTON_ID,
     VerificationView,
 )
 
 
-def test_verification_button_is_persistent():
+@pytest.mark.asyncio
+async def test_verification_button_is_persistent():
     view = VerificationView()
 
     assert view.timeout is None
