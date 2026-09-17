@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-PROFILE_TEMPLATE_V2 = BASE_DIR / "assets" / "temp.png"
+PROFILE_TEMPLATE_V2 = BASE_DIR / "assets" / "profile_template_v2.png"
 FONT_PATH = BASE_DIR / "assets" / "Merriweather_24pt-Regular.ttf"
 FONT_PATH2 = BASE_DIR / "assets" / "Marcellus-Regular.ttf"
 
@@ -442,7 +442,7 @@ async def create_profile_card_v2(
     if not PROFILE_TEMPLATE_V2.exists():
         raise FileNotFoundError(
             "Не найден новый шаблон профиля: "
-            "assets/temp.png"
+            "assets/profile_template_v2.png"
         )
 
     card = Image.open(
@@ -451,7 +451,7 @@ async def create_profile_card_v2(
 
     if card.size != TEMPLATE_SIZE:
         raise RuntimeError(
-            "temp.png должен иметь размер "
+            "profile_template_v2.png должен иметь размер "
             f"{TEMPLATE_SIZE[0]}x{TEMPLATE_SIZE[1]}, "
             f"получено "
             f"{card.size[0]}x{card.size[1]}"
